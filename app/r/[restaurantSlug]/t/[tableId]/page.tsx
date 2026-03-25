@@ -7,47 +7,67 @@ type MenuItem = {
   id: number;
   name: string;
   price: number;
+  category: string;
+  description: string;
+  picture: string;
   quantity: number;
 };
 
 export default function Page() {
   const params = useParams();
-
   const restaurantSlug = params.restaurantSlug as string;
   const tableId = params.tableId as string;
 
   const [restaurantId, setRestaurantId] = useState<number | null>(null);
   const [items, setItems] = useState<MenuItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const cartItems = items.filter((item) => item.quantity > 0);
+  // 🔹 Kategorien
+  const categories = [
+    "All",
+    ...new Set(items.map((item) => item.category).filter(Boolean)),
+  ];
 
-  const total = cartItems.reduce((sum, item) => {
-    return sum + item.quantity * (item.price || 0);
-  }, 0);
+  // 🔹 Filter
+  const filteredItems =
+    selectedCategory === "All"
+      ? items
+      : items.filter((item) => item.category === selectedCategory);
 
-  // 🔹 1. Restaurant über slug laden
+  // 🔹 Warenkorb
+  const cartItems = items.filter((i) => i.quantity > 0);
+  const total = cartItems.reduce((sum, i) => sum + i.quantity * i.price, 0);
+
+  // 🔹 Restaurant laden
   useEffect(() => {
     fetch(`/api/restaurant?slug=${restaurantSlug}`)
       .then((res) => res.json())
-      .then((data) => {
-        setRestaurantId(data.id);
-      });
+      .then((data) => setRestaurantId(data.id));
   }, [restaurantSlug]);
 
-  // 🔹 2. Menü laden (wenn restaurantId da ist)
+  // 🔹 Menü laden
   useEffect(() => {
     if (!restaurantId) return;
 
     fetch(`/api/menu?restaurantId=${restaurantId}`)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data) =>
         setItems(
-          data.map((item: { id: number; name: string; price: number }) => ({
-            ...item,
-            quantity: 0,
-          })),
-        );
-      });
+          data.map(
+            (item: {
+              id: number;
+              name: string;
+              price: number;
+              category: string;
+              description: string;
+              picture: string;
+            }) => ({
+              ...item,
+              quantity: 0,
+            }),
+          ),
+        ),
+      );
   }, [restaurantId]);
 
   // 🔹 Menge ändern
@@ -61,10 +81,8 @@ export default function Page() {
     );
   };
 
-  // 🔹 Bestellung abschicken
+  // 🔹 Bestellung
   const order = async () => {
-    const filtered = items.filter((i) => i.quantity > 0);
-
     await fetch("/api/order", {
       method: "POST",
       headers: {
@@ -73,80 +91,144 @@ export default function Page() {
       body: JSON.stringify({
         restaurantId,
         tableId: Number(tableId),
-        items: filtered.map((i) => ({
+        items: cartItems.map((i) => ({
           menuItemId: i.id,
           quantity: i.quantity,
         })),
       }),
     });
-    setItems(items.map((item) => ({ ...item, quantity: 0 })));
 
-    alert("Bestellung gesendet");
+    setItems(items.map((i) => ({ ...i, quantity: 0 })));
   };
 
   return (
     <div className="app">
       <div className="container">
-        {/*<div className="welcome">
-          <h2>Welcome! Order from your table.</h2>
-          <p>Scan once, order as you go.</p>
-        </div> */}
-        <div className="categories">
-          <button className="active">All</button>
-          <button>Coffee</button>
-          <button>Cold Drinks</button>
-          <button>Snacks</button>
-        </div>
-        <div className="menu">
-          <h1>Menü</h1>
+        <Menu
+          items={filteredItems}
+          updateQuantity={updateQuantity}
+          categories={categories}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
-          {items.map((item) => (
-            <div key={item.id} className="menu-item">
-              <div className="info">
-                <h2>{item.name}</h2>
-                <p>{item.price}€</p>
-              </div>
-
-              <div className="controls">
-                <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="cart">
-          <h2>Warenkorb</h2>
-
-          {cartItems.length === 0 ? (
-            <p className="empty">Leer</p>
-          ) : (
-            cartItems.map((item) => (
-              <div key={item.id} className="cart-item">
-                <span>
-                  {item.name} x {item.quantity}
-                </span>
-                <span>{item.quantity * item.price}€</span>
-              </div>
-            ))
-          )}
-
-          <div className="total">
-            <span>Gesamt</span>
-            <span>{total}€</span>
-          </div>
-
-          {cartItems.length > 0 && (
-            <div className="floating-cart" onClick={order}>
-              <span>
-                {cartItems.length} items · {total}€
-              </span>
-              <span>Review order →</span>
-            </div>
-          )}
-        </div>
+        <Cart cartItems={cartItems} total={total} onOrder={order} />
       </div>
+
+      {/* 🔥 Mobile Floating Cart */}
+      {cartItems.length > 0 && (
+        <div className="floating-cart" onClick={order}>
+          <span>
+            {cartItems.length} items · {total}€
+          </span>
+          <span>Bestellen →</span>
+        </div>
+      )}
     </div>
   );
 }
+
+//
+// 🔹 MENU
+//
+
+const Menu = ({
+  items,
+  updateQuantity,
+  categories,
+  selectedCategory,
+  setSelectedCategory,
+}: {
+  items: MenuItem[];
+  updateQuantity: (id: number, delta: number) => void;
+  categories: string[];
+  selectedCategory: string;
+  setSelectedCategory: (cat: string) => void;
+}) => {
+  return (
+    <div className="menu">
+      <h1>Menü</h1>
+
+      {/* Kategorien */}
+      <div className="categories">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            className={cat === selectedCategory ? "active" : ""}
+            onClick={() => setSelectedCategory(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Items */}
+      {items.map((item) => (
+        <div key={item.id} className="menu-item">
+          <div className="info">
+            <h2>{item.name}</h2>
+            <p>{item.description}</p>
+            <span className="price">{item.price}€</span>
+          </div>
+
+          {item.picture && (
+            <img src={item.picture} alt={item.name} />
+          )}
+
+          {/* Controls */}
+          <div className="controls">
+            <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+            <span>{item.quantity}</span>
+            <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+//
+// 🔹 CART
+//
+
+const Cart = ({
+  cartItems,
+  total,
+  onOrder,
+}: {
+  cartItems: MenuItem[];
+  total: number;
+  onOrder: () => void;
+}) => {
+  return (
+    <div className="cart">
+      <h2>Warenkorb</h2>
+
+      {cartItems.length === 0 ? (
+        <p className="empty">Leer</p>
+      ) : (
+        cartItems.map((item) => (
+          <div key={item.id} className="cart-item">
+            <span>
+              {item.name} x {item.quantity}
+            </span>
+            <span>{item.quantity * item.price}€</span>
+          </div>
+        ))
+      )}
+
+      <div className="total">
+        <span>Gesamt</span>
+        <span>{total}€</span>
+      </div>
+
+      <button
+        onClick={onOrder}
+        disabled={cartItems.length === 0}
+        className="order-btn"
+      >
+        Bestellen
+      </button>
+    </div>
+  );
+};
