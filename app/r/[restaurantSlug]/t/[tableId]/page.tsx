@@ -115,7 +115,7 @@ export default function Page() {
         <Cart cartItems={cartItems} total={total} onOrder={order} />
       </div>
 
-      {/* 🔥 Mobile Floating Cart */}
+      {/* 🔥 Mobile Floating Cart 
       {cartItems.length > 0 && (
         <div className="floating-cart" onClick={order}>
           <span>
@@ -123,7 +123,7 @@ export default function Page() {
           </span>
           <span>Bestellen →</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
