@@ -17,6 +17,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.27",
@@ -25,5 +26,8 @@
     "postcss": "^8.5.8",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "browser": {
+    "pg": false
   }
 }

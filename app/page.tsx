@@ -1,164 +1,75 @@
-"use client";
+import React from 'react';
+import './App.css';
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <header className="header">
+        <nav className="nav">
+          <a href="#features" className="nav-link">Features</a>
+          <a href="#how-it-works" className="nav-link">How It Works</a>
+          <a href="#testimonials" className="nav-link">Testimonials</a>
+          <a href="#contact" className="nav-link">Contact</a>
+        </nav>
+        <div className="hero">
+          <h1>Welcome to Tabbly</h1>
+          <p>Revolutionize your dining experience with our NFC chips and software. Let your customers see the menu, order, and pay effortlessly.</p>
+          <a href="#contact" className="btn">Get Started</a>
+        </div>
+      </header>
 
-type MenuItem = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
+      <section id="features" className="features">
+        <div className="feature">
+          <h3>NFC Chips</h3>
+          <p>Our durable and easy-to-install NFC chips allow customers to access your menu with a simple tap of their smartphone.</p>
+        </div>
+        <div className="feature">
+          <h3>Digital Menu</h3>
+          <p>Update your menu in real-time. Add new items, change prices, or highlight specials without reprinting menus.</p>
+        </div>
+        <div className="feature">
+          <h3>Order & Pay</h3>
+          <p>Customers can place orders and pay directly from their table, reducing wait times and increasing table turnover.</p>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="how-it-works">
+        <h2>How It Works</h2>
+        <div className="steps">
+          <div className="step">
+            <h3>Step 1: Install NFC Chips</h3>
+            <p>Place our NFC chips on your tables. They are easy to install and blend seamlessly with your decor.</p>
+          </div>
+          <div className="step">
+            <h3>Step 2: Customize Your Menu</h3>
+            <p>Use our intuitive software to create and customize your digital menu. Add photos, descriptions, and prices.</p>
+          </div>
+          <div className="step">
+            <h3>Step 3: Let Customers Order & Pay</h3>
+            <p>Customers tap the NFC chip, browse the menu, place their order, and pay—all from their phone.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials" className="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div className="testimonial">
+          <p>Tabbly transformed our restaurant. Our customers love the convenience, and we have seen a 30% increase in table turnover!</p>
+          <p><strong>— Jane Doe, Restaurant Owner</strong></p>
+        </div>
+      </section>
+
+      <section id="contact" className="cta">
+        <h2>Ready to Get Started?</h2>
+        <p>Contact us today to learn more about how Tabbly can help your restaurant.</p>
+        <a href="mailto:contact@tabbly.com" className="btn">Contact Us</a>
+      </section>
+
+      <footer className="footer">
+        <p>&copy; 2026 Tabbly. All rights reserved.</p>
+      </footer>
+    </div>
+  );
 };
 
-export default function Page() {
-  const params = useParams();
-  const restaurantSlug = params.restaurantSlug as string;
-  const tableId = params.tableId as string;
-
-  const [restaurantId, setRestaurantId] = useState<number | null>(null);
-  const [items, setItems] = useState<MenuItem[]>([]);
-
-  // 🔹 Derived state
-  const cartItems = items.filter((i) => i.quantity > 0);
-  const total = cartItems.reduce((sum, i) => sum + i.quantity * i.price, 0);
-
-  // 🔹 Load restaurant
-  useEffect(() => {
-    fetch(`/api/restaurant?slug=${restaurantSlug}`)
-      .then((res) => res.json())
-      .then((data) => setRestaurantId(data.id));
-  }, [restaurantSlug]);
-
-  // 🔹 Load menu
-  useEffect(() => {
-    if (!restaurantId) return;
-
-    fetch(`/api/menu?restaurantId=${restaurantId}`)
-      .then((res) => res.json())
-      .then((data) =>
-        setItems(
-          data.map((item: { id: number; name: string; price: number }) => ({
-            ...item,
-            quantity: 0,
-          })),
-        ),
-      );
-  }, [restaurantId]);
-
-  // 🔹 Quantity handler
-  const updateQuantity = (id: number, delta: number) => {
-    setItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(0, item.quantity + delta) }
-          : item,
-      ),
-    );
-  };
-
-  // 🔹 Order
-  const order = async () => {
-    await fetch("/api/order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        restaurantId,
-        tableId: Number(tableId),
-        items: cartItems.map((i) => ({
-          menuItemId: i.id,
-          quantity: i.quantity,
-        })),
-      }),
-    });
-
-    setItems(items.map((i) => ({ ...i, quantity: 0 })));
-  };
-
-  return (
-    <Layout>
-      <Menu items={items} updateQuantity={updateQuantity} />
-      <Cart cartItems={cartItems} total={total} onOrder={order} />
-    </Layout>
-  );
-
-  function Layout({ children }: { children: React.ReactNode }) {
-    return (
-      <div className="min-h-screen bg-gray-100 p-4">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-          {children}
-        </div>
-      </div>
-    );
-  }
-  
-  function Menu({
-    items,
-    updateQuantity,
-  }: {
-    items: MenuItem[];
-    updateQuantity: (id: number, delta: number) => void;
-  }) {
-    return (
-      <div className="md:col-span-2 bg-white p-4 rounded-2xl shadow">
-        <h1 className="text-2xl font-bold mb-4">Menü</h1>
-
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between items-center border-b py-3"
-          >
-            <div>
-              <p className="font-semibold">{item.name}</p>
-              <p className="text-gray-500">{item.price}€</p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-              <span>{item.quantity}</span>
-              <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  
-  function Cart({
-    cartItems,
-    total,
-    onOrder,
-  }: {
-    cartItems: MenuItem[];
-    total: number;
-    onOrder: () => void;
-  }) {
-    return (
-      <div className="bg-white p-4 rounded-2xl shadow h-fit sticky top-4">
-        <h2 className="text-xl font-bold mb-4">Warenkorb</h2>
-
-        {cartItems.length === 0 && <p className="text-gray-500">Leer</p>}
-
-        {cartItems.map((item) => (
-          <div key={item.id} className="flex justify-between mb-2">
-            <span>
-              {item.name} x {item.quantity}
-            </span>
-            <span>{item.quantity * item.price}€</span>
-          </div>
-        ))}
-
-        <div className="border-t mt-4 pt-4 font-bold">Gesamt: {total}€</div>
-
-        <button
-          onClick={onOrder}
-          disabled={cartItems.length === 0}
-          className="w-full mt-4 bg-green-500 text-white py-2 rounded-xl disabled:bg-gray-300"
-        >
-          Bestellen
-        </button>
-      </div>
-    );
-  }
-}
+export default App;

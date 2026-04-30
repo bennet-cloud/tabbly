@@ -1,9 +1,9 @@
+import "server-only";
 import { Pool } from "pg";
 
 export const pool = new Pool({
-  user: "bennet",
-  host: "localhost",
-  database: "qrorderapp",
-  password: "admin911",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });

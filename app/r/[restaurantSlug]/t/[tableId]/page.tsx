@@ -168,12 +168,15 @@ const Menu = ({
           <div className="info">
             <h2>{item.name}</h2>
             <p>{item.description}</p>
-            <span className="price">{item.price}€</span>
+            <span className="price">
+              {new Intl.NumberFormat("de-DE", {
+                style: "currency",
+                currency: "EUR",
+              }).format(item.price)}
+            </span>
           </div>
 
-          {item.picture && (
-            <img src={item.picture} alt={item.name} />
-          )}
+          {/*{item.picture && <img src={item.picture} alt={item.name} />}*/}
 
           {/* Controls */}
           <div className="controls">
@@ -209,17 +212,26 @@ const Cart = ({
       ) : (
         cartItems.map((item) => (
           <div key={item.id} className="cart-item">
-            <span>
-              {item.name} x {item.quantity}
+            <span>{item.name} x {item.quantity}
             </span>
-            <span>{item.quantity * item.price}€</span>
+            <span>
+              {new Intl.NumberFormat("de-DE", {
+                style: "currency",
+                currency: "EUR",
+              }).format(item.quantity * item.price)}
+            </span>
           </div>
         ))
       )}
 
       <div className="total">
         <span>Gesamt</span>
-        <span>{total}€</span>
+        <span>
+          {new Intl.NumberFormat("de-DE", {
+            style: "currency",
+            currency: "EUR",
+          }).format(total)}
+        </span>
       </div>
 
       <button

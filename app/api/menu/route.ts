@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   const restaurantId = searchParams.get("restaurantId");
 
   const result = await pool.query(
-    "SELECT restaurant_id, id, name, price, category, picture FROM menu_items WHERE restaurant_id = $1",
+    "SELECT restaurant_id, id, name, price, category FROM menu_items WHERE restaurant_id = $1",
     [restaurantId]
   );
 
