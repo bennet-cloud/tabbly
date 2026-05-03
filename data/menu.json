@@ -123,49 +123,49 @@
       "id": 16,
       "name": "Cola",
       "price": 3,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,33l"
     },
     {
       "id": 17,
       "name": "Cola Zero",
       "price": 3,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,33l"
     },
     {
       "id": 18,
       "name": "Fanta",
       "price": 3,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,33l"
     },
     {
       "id": 19,
       "name": "Sprite",
       "price": 3,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,33l"
     },
     {
       "id": 20,
       "name": "Wasser Still",
       "price": 2.5,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,5l"
     },
     {
       "id": 21,
       "name": "Wasser Sprudel",
       "price": 2.5,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,5l"
     },
     {
       "id": 22,
       "name": "Apfelschorle",
       "price": 3.2,
-      "category": "Drink",
+      "category": "Getränke",
       "description": "0,5l"
     },
 
@@ -173,21 +173,21 @@
       "id": 23,
       "name": "Espresso",
       "price": 2.2,
-      "category": "Coffee",
+      "category": "Kaffee",
       "description": "Stark & kurz"
     },
     {
       "id": 24,
       "name": "Cappuccino",
       "price": 3.5,
-      "category": "Coffee",
+      "category": "Kaffee",
       "description": "Mit Milchschaum"
     },
     {
       "id": 25,
       "name": "Latte Macchiato",
       "price": 3.8,
-      "category": "Coffee",
+      "category": "Kaffee",
       "description": "Milch & Espresso"
     },
 
@@ -195,28 +195,28 @@
       "id": 26,
       "name": "Tiramisu",
       "price": 5.5,
-      "category": "Dessert",
+      "category": "Nachtisch",
       "description": "Italienischer Klassiker"
     },
     {
       "id": 27,
       "name": "Panna Cotta",
       "price": 5,
-      "category": "Dessert",
+      "category": "Nachtisch",
       "description": "Mit Erdbeersauce"
     },
     {
       "id": 28,
       "name": "Gelato Misto",
       "price": 4.5,
-      "category": "Dessert",
+      "category": "Nachtisch",
       "description": "3 Kugeln Eis"
     },
     {
       "id": 29,
       "name": "Schokoladenkuchen",
       "price": 5.5,
-      "category": "Dessert",
+      "category": "Nachtisch",
       "description": "Warm & saftig"
     }
   ]

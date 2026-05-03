@@ -26,17 +26,17 @@ export default function Page() {
     })),
   );
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("Alle");
 
   // 🔹 Kategorien
   const categories = [
-    "All",
+    "Alle",
     ...new Set(items.map((item) => item.category).filter(Boolean)),
   ];
 
   // 🔹 Filter
   const filteredItems =
-    selectedCategory === "All"
+    selectedCategory === "Alle"
       ? items
       : items.filter((item) => item.category === selectedCategory);
 
@@ -94,7 +94,7 @@ export default function Page() {
         />
       </div>
 
-      {/* 🔥 Mobile Floating Cart */}
+      {/* 🔥 Mobile Floating Cart 
       {cartItems.length > 0 && (
         <div className="floating-cart" onClick={order}>
           <span>
@@ -107,7 +107,7 @@ export default function Page() {
 
           <span>Bestellen →</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
