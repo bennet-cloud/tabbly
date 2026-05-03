@@ -1,0 +1,223 @@
+{
+  "restaurant": {
+    "id": 1,
+    "name": "Pizzeria Roma",
+    "slug": "pizzeria-roma"
+  },
+  "tables": [
+    { "id": 1, "tableNumber": 1 },
+    { "id": 2, "tableNumber": 2 },
+    { "id": 3, "tableNumber": 3 },
+    { "id": 4, "tableNumber": 4 },
+    { "id": 5, "tableNumber": 5 }
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "name": "Pizza Margherita",
+      "price": 8.5,
+      "category": "Pizza",
+      "description": "Tomate & Mozzarella"
+    },
+    {
+      "id": 2,
+      "name": "Pizza Salami",
+      "price": 9.5,
+      "category": "Pizza",
+      "description": "Mit Salami"
+    },
+    {
+      "id": 3,
+      "name": "Pizza Prosciutto",
+      "price": 10.5,
+      "category": "Pizza",
+      "description": "Schinken & Käse"
+    },
+    {
+      "id": 4,
+      "name": "Pizza Funghi",
+      "price": 9,
+      "category": "Pizza",
+      "description": "Mit Champignons"
+    },
+    {
+      "id": 5,
+      "name": "Pizza Hawaii",
+      "price": 99,
+      "category": "Pizza",
+      "description": "Schinken & Ananas"
+    },
+    {
+      "id": 6,
+      "name": "Pizza Quattro Formaggi",
+      "price": 11.5,
+      "category": "Pizza",
+      "description": "Vier Käsesorten"
+    },
+    {
+      "id": 7,
+      "name": "Pizza Tonno",
+      "price": 10.5,
+      "category": "Pizza",
+      "description": "Thunfisch & Zwiebeln"
+    },
+    {
+      "id": 8,
+      "name": "Pizza Diavolo",
+      "price": 11,
+      "category": "Pizza",
+      "description": "Scharf mit Salami"
+    },
+    {
+      "id": 9,
+      "name": "Pizza Vegetaria",
+      "price": 10,
+      "category": "Pizza",
+      "description": "Mit frischem Gemüse"
+    },
+    {
+      "id": 10,
+      "name": "Pizza Napoli",
+      "price": 9.5,
+      "category": "Pizza",
+      "description": "Mit Sardellen"
+    },
+
+    {
+      "id": 11,
+      "name": "Spaghetti Bolognese",
+      "price": 10.5,
+      "category": "Pasta",
+      "description": "Hackfleischsauce"
+    },
+    {
+      "id": 12,
+      "name": "Spaghetti Carbonara",
+      "price": 11.5,
+      "category": "Pasta",
+      "description": "Ei, Speck & Parmesan"
+    },
+    {
+      "id": 13,
+      "name": "Penne Arrabbiata",
+      "price": 9.5,
+      "category": "Pasta",
+      "description": "Scharfe Tomatensauce"
+    },
+    {
+      "id": 14,
+      "name": "Tagliatelle al Salmone",
+      "price": 13.5,
+      "category": "Pasta",
+      "description": "Mit Lachs & Sahnesauce"
+    },
+    {
+      "id": 15,
+      "name": "Lasagne",
+      "price": 12.5,
+      "category": "Pasta",
+      "description": "Klassisch überbacken"
+    },
+
+    {
+      "id": 16,
+      "name": "Cola",
+      "price": 3,
+      "category": "Drink",
+      "description": "0,33l"
+    },
+    {
+      "id": 17,
+      "name": "Cola Zero",
+      "price": 3,
+      "category": "Drink",
+      "description": "0,33l"
+    },
+    {
+      "id": 18,
+      "name": "Fanta",
+      "price": 3,
+      "category": "Drink",
+      "description": "0,33l"
+    },
+    {
+      "id": 19,
+      "name": "Sprite",
+      "price": 3,
+      "category": "Drink",
+      "description": "0,33l"
+    },
+    {
+      "id": 20,
+      "name": "Wasser Still",
+      "price": 2.5,
+      "category": "Drink",
+      "description": "0,5l"
+    },
+    {
+      "id": 21,
+      "name": "Wasser Sprudel",
+      "price": 2.5,
+      "category": "Drink",
+      "description": "0,5l"
+    },
+    {
+      "id": 22,
+      "name": "Apfelschorle",
+      "price": 3.2,
+      "category": "Drink",
+      "description": "0,5l"
+    },
+
+    {
+      "id": 23,
+      "name": "Espresso",
+      "price": 2.2,
+      "category": "Coffee",
+      "description": "Stark & kurz"
+    },
+    {
+      "id": 24,
+      "name": "Cappuccino",
+      "price": 3.5,
+      "category": "Coffee",
+      "description": "Mit Milchschaum"
+    },
+    {
+      "id": 25,
+      "name": "Latte Macchiato",
+      "price": 3.8,
+      "category": "Coffee",
+      "description": "Milch & Espresso"
+    },
+
+    {
+      "id": 26,
+      "name": "Tiramisu",
+      "price": 5.5,
+      "category": "Dessert",
+      "description": "Italienischer Klassiker"
+    },
+    {
+      "id": 27,
+      "name": "Panna Cotta",
+      "price": 5,
+      "category": "Dessert",
+      "description": "Mit Erdbeersauce"
+    },
+    {
+      "id": 28,
+      "name": "Gelato Misto",
+      "price": 4.5,
+      "category": "Dessert",
+      "description": "3 Kugeln Eis"
+    },
+    {
+      "id": 29,
+      "name": "Schokoladenkuchen",
+      "price": 5.5,
+      "category": "Dessert",
+      "description": "Warm & saftig"
+    }
+  ]
+}
